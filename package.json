@@ -1,7 +1,7 @@
 {
   "name": "minecraft-enchantment-render",
   "version": "1.0.0",
-  "description": "Minecraft WebGL renderer with focus on enchantments",
+  "description": "Minecraft WebGL renderer with support for enchantments",
   "keywords": [
     "minecraft",
     "renderer",

@@ -1,5 +1,5 @@
 # minecraft-enchantment-render
-A Minecraft WebGL renderer with focus on enchantments.
+A Minecraft WebGL renderer with support for enchantments.
 
 [![Preview](./example/preview.png)](https://l3g7.github.io/minecraft-enchantment-render/example/)
 <br>
