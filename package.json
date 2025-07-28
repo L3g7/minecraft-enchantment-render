@@ -1,0 +1,28 @@
+{
+  "name": "minecraft-enchantment-render",
+  "version": "1.0.0",
+  "description": "Minecraft enchantment renderer with focus on enchantments",
+  "keywords": [
+    "minecraft",
+    "renderer",
+    "enchantment",
+    "enchanting",
+    "glint",
+    "webgl"
+  ],
+  "homepage": "https://github.com/L3g7/minecraft-enchantment-render#readme",
+  "bugs": {
+    "url": "https://github.com/L3g7/minecraft-enchantment-render/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/L3g7/minecraft-enchantment-render.git"
+  },
+  "license": "MIT",
+  "author": "L3g7",
+  "type": "module",
+  "browser": "./lib/index.js",
+  "scripts": {
+    "bundle": "bun run ./bundle.js"
+  }
+}

@@ -1,0 +1,34 @@
+body {
+    --pixel: 0.3em;
+
+    margin: 0;
+    height: 100vh;
+    background-color: #0d1117;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.inventory {
+    background-image: url("inventory.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    image-rendering: pixelated;
+    width: calc(176 * var(--pixel));
+    height: calc(78 * var(--pixel));
+    position: relative;
+}
+
+.rows {
+    position: absolute;
+    top: calc(36 * var(--pixel));
+    left: calc(26 * var(--pixel));
+
+    display: flex;
+    gap: calc(2 * var(--pixel));
+}
+
+.inventory canvas {
+    width: calc(16 * var(--pixel));
+}
