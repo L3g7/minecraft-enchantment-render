@@ -1,4 +1,4 @@
-import { createRenderer, MODEL_ITEM, MODEL_CUBE, MODEL_SKULL_COMPACT, MODEL_SKULL_SKIN } from "../minecraft-enchantment-render-1.0.0.js";
+import { createRenderer, MODEL_ITEM, MODEL_CUBE, MODEL_SKULL_COMPACT, MODEL_SKULL_SKIN } from "./minecraft-enchantment-render-1.0.0.js";
 
 let textures = {
     // https://mcasset.cloud/1.21.8/assets/minecraft/textures/item/wooden_sword.png
