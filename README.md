@@ -19,7 +19,7 @@ See [JSDoc](https://l3g7.github.io/minecraft-enchantment-render/jsdoc/) for deta
 
 ## Common Issues
 <details>
-<summary>My texture doesn't load when using an absolute URL / <code>DOMException: The operation is insecure</code></summary>
+<summary>The texture doesn't load when using an absolute URL / <code>DOMException: The operation is insecure</code></summary>
 <br>
 Loading textures from other servers may get blocked by the browser due to <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS">CORS</a>.
 Ensure that the right headers are set and that you're using HTTPS.
