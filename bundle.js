@@ -1,3 +1,5 @@
+// Script to bundle all lib files using Bun.
+
 const VERSION = "1.0.0";
 const BANNER = "// minecraft-enchantment-render v1.0.0\n// \n// " + (await Bun.file("LICENSE.txt").text()).split("\n").join("\n// ");
 
