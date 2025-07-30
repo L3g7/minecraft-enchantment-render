@@ -17,41 +17,41 @@ let textures = {
 
 createRenderer(document.querySelector("#slot10"), {
     modelType: MODEL_ITEM,
-    textureURL: textures.woodenSword,
+    texture: textures.woodenSword,
 });
 
 createRenderer(document.querySelector("#slot11"), {
     modelType: MODEL_CUBE,
-    textureURL: textures.pumpkin,
+    texture: textures.pumpkin,
 });
 
 createRenderer(document.querySelector("#slot12"), {
     modelType: MODEL_CUBE,
-    textureURL: textures.glass,
+    texture: textures.glass,
 });
 
 createRenderer(document.querySelector("#slot13"), {
     modelType: MODEL_SKULL_COMPACT,
-    textureURL: textures.skullCompact,
+    texture: textures.skullCompact,
     inInventory: true
 });
 
 createRenderer(document.querySelector("#slot14"), {
     modelType: MODEL_SKULL_SKIN,
-    textureURL: textures.skullSkin,
+    texture: textures.skullSkin,
     inInventory: true
 });
 
 createRenderer(document.querySelector("#slot15"), {
     modelType: MODEL_ITEM,
-    textureURL: textures.woodenSword,
+    texture: textures.woodenSword,
     enchanted: true
 });
 
 // All options:
 createRenderer(document.querySelector("#slot16"), {
     modelType: MODEL_CUBE,
-    textureURL: textures.pumpkin,
+    texture: textures.pumpkin,
     inInventory: true,
     enchanted: true,
     glContext: {
