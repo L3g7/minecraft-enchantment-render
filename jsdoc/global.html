@@ -396,16 +396,12 @@
     
 
     
-    <h4 class="name" id="createRenderer"><span class="type-signature"></span>createRenderer<span class="signature">(canvas, renderOptions)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Renderer.html">Renderer</a>>}</span></h4>
+    <h4 class="name" id="createAtlas"><span class="type-signature"></span>createAtlas<span class="signature">(texture)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="TextureAtlas.html">TextureAtlas</a>>}</span></h4>
     
 
     
 
 
-
-<div class="description">
-    Creates and starts a new renderer.
-</div>
 
 
 
@@ -440,13 +436,16 @@
 
         <tr>
             
-                <td class="name"><code>canvas</code></td>
+                <td class="name"><code>texture</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">HTMLCanvasElement</span>
+<span class="param-type">string</span>
+|
+
+<span class="param-type">TexImageSource</span>
 
 
             
@@ -456,30 +455,7 @@
 
             
 
-            <td class="description last">The canvas to render on.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>renderOptions</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#RenderOptions">RenderOptions</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">What to render.</td>
+            <td class="description last">A URL to the model texture or an arbitrary image.</td>
         </tr>
 
     
@@ -520,7 +496,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line26">line 26</a>
+        <a href="atlas.js.html">atlas.js</a>, <a href="atlas.js.html#line8">line 8</a>
     </li></ul></dd>
     
 
@@ -556,7 +532,497 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;<a href="Renderer.html">Renderer</a>></span>
+<span class="param-type">Promise.&lt;<a href="TextureAtlas.html">TextureAtlas</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="createMultiRenderer"><span class="type-signature"></span>createMultiRenderer<span class="signature">(canvas, models, contextAttributes<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="Renderer.html">Renderer</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Creates a new renderer with multiple models.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>canvas</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLCanvasElement</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The canvas to render on.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>models</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="global.html#ModelData">ModelData</a>></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">What to render.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>contextAttributes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WebGLContextAttributes</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    {antialias: false}
+                
+                </td>
+            
+
+            <td class="description last">Arbitrary WebGL context attributes.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line41">line 41</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="Renderer.html">Renderer</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="createRenderer"><span class="type-signature"></span>createRenderer<span class="signature">(canvas, modelData, contextAttributes<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="Renderer.html">Renderer</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Creates a new renderer.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>canvas</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLCanvasElement</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The canvas to render on.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>modelData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#ModelData">ModelData</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">What to render.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>contextAttributes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WebGLContextAttributes</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    {antialias: false}
+                
+                </td>
+            
+
+            <td class="description last">Arbitrary WebGL context attributes.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line29">line 29</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="Renderer.html">Renderer</a></span>
 
 
     </dd>
@@ -576,7 +1042,7 @@
 
         
                 
-<h4 class="name" id="RenderOptions">RenderOptions</h4>
+<h4 class="name" id="ModelData">ModelData</h4>
 
 
 
@@ -653,20 +1119,23 @@
                 </td>
             
 
-            <td class="description last">One of MODEL_CUBE, MODEL-ITEM, MODEL_SKULL_COMPACT, MODEL_SKULL_SKIN.</td>
+            <td class="description last">One of <a href="global.html#MODEL_CUBE">MODEL_CUBE</a>, <a href="global.html#MODEL_ITEM">MODEL_ITEM</a>, <a href="global.html#MODEL_SKULL_COMPACT">MODEL_SKULL_COMPACT</a>, <a href="global.html#MODEL_SKULL_SKIN">MODEL_SKULL_SKIN</a>.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>textureURL</code></td>
+                <td class="name"><code>texture</code></td>
             
 
             <td class="type">
             
                 
 <span class="param-type">string</span>
+|
+
+<span class="param-type">TexImageSource</span>
 
 
             
@@ -686,7 +1155,7 @@
                 </td>
             
 
-            <td class="description last">The URL to the model texture.</td>
+            <td class="description last">A URL to the model texture, a <a href="TextureAtlas.html">TextureAtlas</a> cutout or an arbitrary image.</td>
         </tr>
 
     
@@ -767,13 +1236,13 @@
 
         <tr>
             
-                <td class="name"><code>glContext</code></td>
+                <td class="name"><code>translation</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">WebGLContextAttributes</span>
+<span class="param-type">[number, number, number]</span>
 
 
             
@@ -792,12 +1261,49 @@
             
                 <td class="default">
                 
-                    {antialias: false}
+                    [0, 0, 0]
                 
                 </td>
             
 
-            <td class="description last">Arbitrary WebGL context attributes.</td>
+            <td class="description last">Applies a translation to the model.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scale</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last">Scales the model.</td>
         </tr>
 
     
@@ -836,7 +1342,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line9">line 9</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line10">line 10</a>
     </li></ul></dd>
     
 
@@ -866,13 +1372,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ModelType.html">ModelType</a></li><li><a href="Renderer.html">Renderer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#MODEL_CUBE">MODEL_CUBE</a></li><li><a href="global.html#MODEL_ITEM">MODEL_ITEM</a></li><li><a href="global.html#MODEL_SKULL_COMPACT">MODEL_SKULL_COMPACT</a></li><li><a href="global.html#MODEL_SKULL_SKIN">MODEL_SKULL_SKIN</a></li><li><a href="global.html#createRenderer">createRenderer</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ModelType.html">ModelType</a></li><li><a href="Renderer.html">Renderer</a></li><li><a href="TextureAtlas.html">TextureAtlas</a></li></ul><h3>Global</h3><ul><li><a href="global.html#MODEL_CUBE">MODEL_CUBE</a></li><li><a href="global.html#MODEL_ITEM">MODEL_ITEM</a></li><li><a href="global.html#MODEL_SKULL_COMPACT">MODEL_SKULL_COMPACT</a></li><li><a href="global.html#MODEL_SKULL_SKIN">MODEL_SKULL_SKIN</a></li><li><a href="global.html#createAtlas">createAtlas</a></li><li><a href="global.html#createMultiRenderer">createMultiRenderer</a></li><li><a href="global.html#createRenderer">createRenderer</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Jul 30 2025 01:40:31 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Fri Aug 01 2025 12:19:32 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>

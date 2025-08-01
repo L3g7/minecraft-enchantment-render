@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: ModelType</title>
+    <title>JSDoc: Source: atlas.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,134 +17,67 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: ModelType</h1>
+    <h1 class="page-title">Source: atlas.js</h1>
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>ModelType</h2>
-        
-            <div class="class-description">One of <a href="global.html#MODEL_CUBE">MODEL_CUBE</a>, <a href="global.html#MODEL_ITEM">MODEL_ITEM</a>, <a href="global.html#MODEL_SKULL_COMPACT">MODEL_SKULL_COMPACT</a>, <a href="global.html#MODEL_SKULL_SKIN">MODEL_SKULL_SKIN</a>.</div>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models.js.html">models.js</a>, <a href="models.js.html#line20">line 20</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    </div>
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="ModelType.html">ModelType</a></dt>
-            <dd></dd>
-        </dl>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { loadTextureFromURL } from "./setup.js";
+
+/**
+ * @param {string|TexImageSource} texture - A URL to the model texture or an arbitrary image.
+ * @public
+ * @returns {Promise&lt;TextureAtlas>}
+ */
+export async function createAtlas(texture) {
+    let image;
+    if (typeof texture === "string") {
+        image = await loadTextureFromURL(texture);
+    } else {
+        image = texture;
+    }
+
+    return new TextureAtlas(image);
+}
+
+/**
+ * A texture atlas. See {@link createAtlas}.
+ * @public
+ * @hideconstructor
+ */
+export class TextureAtlas {
+    /**
+     * @param {HTMLImageElement} texture
+     */
+    constructor(texture) {
+        let canvas = document.createElement("canvas");
+        canvas.width = texture.width;
+        canvas.height = texture.height;
+
+        this.ctx = canvas.getContext("2d");
+        this.ctx.drawImage(texture, 0, 0, texture.width, texture.height, 0, 0, texture.width, texture.height);
+    }
+
+    /**
+     * Creates an image cutout.
+     * @param {number} x
+     * @param {number} y
+     * @param {number} width
+     * @param {number} height
+     * @returns {ImageData}
+     * @public
+     */
+    getTexture(x, y, width, height) {
+        return this.ctx.getImageData(x, y, width, height);
+    }
+}
+</code></pre>
+        </article>
+    </section>
 
 
 

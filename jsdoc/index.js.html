@@ -29,70 +29,128 @@
             <pre class="prettyprint source linenums"><code>"use strict";
 
 export { MODEL_CUBE, MODEL_ITEM, MODEL_SKULL_COMPACT, MODEL_SKULL_SKIN, ModelType } from "./models.js";
+export { TextureAtlas, createAtlas } from "./atlas.js";
 
 import { GLINT_TEXTURE, ModelType } from "./models.js";
-import { draw } from "./draw.js";
-import { setupShader, loadTexture, loadTextureFromURL } from "./setup.js";
+import { draw, resetDraw } from "./draw.js";
+import { setupShader, loadTexture, loadTextureAuto } from "./setup.js";
 
 /**
- * @typedef {Object} RenderOptions
- * @property {ModelType} modelType - One of MODEL_CUBE, MODEL-ITEM, MODEL_SKULL_COMPACT, MODEL_SKULL_SKIN.
- * @property {string} textureURL - The URL to the model texture.
+ * @typedef {Object} ModelData
+ * @property {ModelType} modelType - One of {@link MODEL_CUBE}, {@link MODEL_ITEM}, {@link MODEL_SKULL_COMPACT}, {@link MODEL_SKULL_SKIN}.
+ * @property {string|TexImageSource} texture - A URL to the model texture, a {@link TextureAtlas} cutout or an arbitrary image.
  * @property {boolean} [enchanted=false] - Applies Minecraft's enchantment glint.
  * @property {boolean} [inInventory=false] - Applies padding to match rendering of Minecraft items in inventory.
- * @property {WebGLContextAttributes} [glContext={antialias: false}] - Arbitrary WebGL context attributes.
+ * @property {[number, number, number]} [translation=[0, 0, 0]] - Applies a translation to the model.
+ * @property {number} [scale=1] - Scales the model.
  * @public
  */
 
 /**
- * Creates and starts a new renderer.
+ * Creates a new renderer.
  * @param {HTMLCanvasElement} canvas - The canvas to render on.
- * @param {RenderOptions} renderOptions - What to render.
- * @returns {Promise&lt;Renderer>}
+ * @param {ModelData} modelData - What to render.
+ * @param {WebGLContextAttributes} [contextAttributes={antialias: false}] - Arbitrary WebGL context attributes.
+ * @returns {Renderer}
  * @public
  */
-export async function createRenderer(canvas, renderOptions) {
-    if (!window.glMatrix?.mat4) {
-        throw new Error("Could not find matrix library. Please ensure you include glMatrix v3.");
-    }
-
-    // Disable antialias by default
-    let contextAttributes = renderOptions.glContext || {};
-    if (contextAttributes.antialias === undefined) {
-        contextAttributes.antialias = false;
-    }
-
-    const gl = canvas.getContext("webgl", contextAttributes);
-    if (gl === null) {
-        throw new Error("Could not initialize WebGL. Your browser may not support it.");
-    }
-
-    const programInfo = setupShader(gl);
-
-    const texture = await loadTextureFromURL(gl, renderOptions.textureURL);
-    const glintTexture = renderOptions.enchanted ? loadTexture(gl, GLINT_TEXTURE, 64, 64) : null;
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-
-    const model = renderOptions.modelType.create(gl);
-
-    let active = true;
-    function render() {
-        draw(gl, programInfo, renderOptions.inInventory, model, texture, glintTexture);
-        if (active)
-            requestAnimationFrame(render);
-    }
-    requestAnimationFrame(render);
-    return new Renderer(() => active = false);
+export function createRenderer(canvas, modelData, contextAttributes) {
+    return createMultiRenderer(canvas, [modelData], contextAttributes);
 }
 
 /**
- * An active render.
+ * Creates a new renderer with multiple models.
+ * @param {HTMLCanvasElement} canvas - The canvas to render on.
+ * @param {ModelData[]} models - What to render.
+ * @param {WebGLContextAttributes} [contextAttributes={antialias: false}] - Arbitrary WebGL context attributes.
+ * @returns {Renderer}
  * @public
- * @hideconstructor
+ */
+export function createMultiRenderer(canvas, models, contextAttributes) {
+    let renderer = new Renderer(canvas, contextAttributes);
+    renderer.models = models;
+    return renderer;
+}
+
+/**
+ * A model renderer. See {@link createRenderer}.
+ * @public
  */
 export class Renderer {
-    constructor(cancelFunc) {
-        this.cancelFunc = cancelFunc;
+
+    /**
+     * The models to render.
+     * @type {ModelData[]}
+     * @public
+     */
+    models;
+
+    /**
+     * Creates a new renderer.
+     * @param {HTMLCanvasElement} canvas - The canvas to render on.
+     * @param {WebGLContextAttributes} [contextAttributes={antialias: false}] - Arbitrary WebGL context attributes.
+     * @public
+     */
+    constructor(canvas, contextAttributes) {
+        if (!window.glMatrix?.mat4) {
+            throw new Error("Could not find matrix library. Please ensure you include glMatrix v3.");
+        }
+
+        // Disable antialias by default
+        contextAttributes ||= {};
+        if (contextAttributes.antialias === undefined) {
+            contextAttributes.antialias = false;
+        }
+
+        const gl = canvas.getContext("webgl", contextAttributes);
+        if (gl === null) {
+            throw new Error("Could not initialize WebGL. Your browser may not support it.");
+        }
+
+        this.gl = gl;
+        this.programInfo = setupShader(gl);
+        this.models = [];
+
+        // Start render loop
+        let activeHandle;
+
+        const render = async () => {
+            resetDraw(gl, true);
+            for (let model of this.models) {
+                await this.prepareDraw(model);
+                model.draw();
+            }
+
+            if (activeHandle)
+                activeHandle = requestAnimationFrame(render);
+        }
+        activeHandle = requestAnimationFrame(render);
+
+        this.destroyFunc = () => {
+            cancelAnimationFrame(activeHandle);
+            activeHandle = null;
+            gl.getExtension("WEBGL_lose_context")?.loseContext();
+        };
+    }
+
+    /**
+     * @param {ModelData} modelData
+     * @private
+     */
+    async prepareDraw(modelData) {
+        if (modelData.draw) {
+            return;
+        }
+
+        // Load texture
+        const texture = await loadTextureAuto(this.gl, modelData.texture);
+        const glintTexture = modelData.enchanted ? loadTexture(this.gl, GLINT_TEXTURE, 64, 64) : null;
+
+        // Create draw call
+        const model = modelData.modelType.create(this.gl);
+        const translation = modelData.translation || [0, 0, 0];
+        const scaleMul = 1 / (modelData.scale || 1); // Take inverse of scale so that bigger scale = bigger model
+        modelData.draw = () => draw(this.gl, this.programInfo, modelData.inInventory, model, texture, glintTexture, translation, scaleMul);
     }
 
     /**
@@ -100,7 +158,7 @@ export class Renderer {
      * @public
      */
     destroy() {
-        this.cancelFunc();
+        this.destroyFunc();
     }
 }
 </code></pre>
@@ -113,13 +171,13 @@ export class Renderer {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ModelType.html">ModelType</a></li><li><a href="Renderer.html">Renderer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#MODEL_CUBE">MODEL_CUBE</a></li><li><a href="global.html#MODEL_ITEM">MODEL_ITEM</a></li><li><a href="global.html#MODEL_SKULL_COMPACT">MODEL_SKULL_COMPACT</a></li><li><a href="global.html#MODEL_SKULL_SKIN">MODEL_SKULL_SKIN</a></li><li><a href="global.html#createRenderer">createRenderer</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ModelType.html">ModelType</a></li><li><a href="Renderer.html">Renderer</a></li><li><a href="TextureAtlas.html">TextureAtlas</a></li></ul><h3>Global</h3><ul><li><a href="global.html#MODEL_CUBE">MODEL_CUBE</a></li><li><a href="global.html#MODEL_ITEM">MODEL_ITEM</a></li><li><a href="global.html#MODEL_SKULL_COMPACT">MODEL_SKULL_COMPACT</a></li><li><a href="global.html#MODEL_SKULL_SKIN">MODEL_SKULL_SKIN</a></li><li><a href="global.html#createAtlas">createAtlas</a></li><li><a href="global.html#createMultiRenderer">createMultiRenderer</a></li><li><a href="global.html#createRenderer">createRenderer</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Jul 30 2025 01:40:31 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Fri Aug 01 2025 12:19:32 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>
