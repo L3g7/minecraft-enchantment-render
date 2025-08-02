@@ -12,7 +12,7 @@ import { createRenderer, MODEL_CUBE } from "minecraft-enchantment-render-1.0.0.j
 
 createRenderer(document.querySelector("#exampleCanvas"), {
     modelType: MODEL_CUBE,
-    textureURL: "./glass.png",
+    texture: "./glass.png",
 });
 ```
 See [JSDoc](https://l3g7.github.io/minecraft-enchantment-render/jsdoc/) for details.
