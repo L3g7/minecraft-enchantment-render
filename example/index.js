@@ -1,6 +1,6 @@
-import { createRenderer, createMultiRenderer, MODEL_ITEM, MODEL_CUBE, MODEL_SKULL_COMPACT, MODEL_SKULL_SKIN } from "../minecraft-enchantment-render-1.0.0.js";
+import { createRenderer, MODEL_ITEM, MODEL_CUBE, MODEL_SKULL_COMPACT, MODEL_SKULL_SKIN } from "../minecraft-enchantment-render-1.0.0.js";
 
-let textures = {
+const textures = {
     // https://mcasset.cloud/1.21.8/assets/minecraft/textures/item/wooden_sword.png
     woodenSword: "./textures/item_wooden_sword.png",
     // https://mcasset.cloud/1.21.8/assets/minecraft/textures/block/pumpkin_top.png
@@ -15,28 +15,28 @@ let textures = {
     skullSkin: "./textures/skull_skin.png"
 }
 
-createRenderer(document.querySelector("#slot10"), {
+const renderer = createRenderer(document.querySelector("#slot10"), {
     modelType: MODEL_ITEM,
     texture: textures.woodenSword,
 });
 
-createRenderer(document.querySelector("#slot11"), {
+renderer.renderShared(document.querySelector("#slot11"), {
     modelType: MODEL_CUBE,
     texture: textures.pumpkin,
 });
 
-createRenderer(document.querySelector("#slot12"), {
+renderer.renderShared(document.querySelector("#slot12"), {
     modelType: MODEL_CUBE,
     texture: textures.glass,
 });
 
-createRenderer(document.querySelector("#slot13"), {
+renderer.renderShared(document.querySelector("#slot13"), {
     modelType: MODEL_SKULL_COMPACT,
     texture: textures.skullCompact,
     inInventory: true
 });
 
-createRenderer(document.querySelector("#slot14"), {
+renderer.renderShared(document.querySelector("#slot14"), {
     modelType: MODEL_SKULL_SKIN,
     texture: textures.skullSkin,
     inInventory: true
@@ -49,7 +49,7 @@ createRenderer(document.querySelector("#slot15"), {
 });
 
 // All options:
-createMultiRenderer(document.querySelector("#slot16"), [
+createRenderer(document.querySelector("#slot16"), [
     {
         modelType: MODEL_CUBE,
         texture: textures.pumpkin,
